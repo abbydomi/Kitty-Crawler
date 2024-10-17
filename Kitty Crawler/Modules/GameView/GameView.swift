@@ -20,21 +20,58 @@ struct GameView: View {
     )
     // MARK: - View
     var body: some View {
-        ZStack {
-            Rectangle()
-                .foregroundStyle(Color.blue)
-                .aspectRatio(1, contentMode: .fit) // Ensure the grid remai
-            LazyVGrid(columns: columns, spacing: Constants.spacing) {
-                ForEach(viewModel.tiles, id: \.self) { tile in
-                    ZStack {
-                        Rectangle()
-                            .aspectRatio(1, contentMode: .fit)
-                            .foregroundStyle(Color.orange)
-                        Text(String(tile.power))
+        VStack {
+            // MARK: Top UI
+            Spacer()
+            HStack {
+                Spacer()
+                Text("score")
+            }
+            // MARK: Board
+            ZStack {
+                Rectangle()
+                    .foregroundStyle(Color.blue)
+                    .aspectRatio(1, contentMode: .fit)
+                LazyVGrid(columns: columns, spacing: Constants.spacing) {
+                    ForEach(viewModel.tiles, id: \.self) { tile in
+                        ZStack {
+                            Rectangle()
+                                .aspectRatio(1, contentMode: .fit)
+                                .foregroundStyle(Color.orange)
+                            VStack {
+                                Text("(\(tile.position.x),\(tile.position.y))")
+                                Text("\(tile.type)")
+                            }
+                        }
                     }
                 }
+                .padding(Constants.spacing)
             }
-            .padding(Constants.spacing)
+            // MARK: Bottom UI
+            HStack {
+                Text("Health")
+                Spacer()
+                Text("Level")
+            }
+            HStack {
+                Text("Inventory")
+                Spacer()
+                Text("Backpack")
+            }
+            HStack {
+                Text("Money")
+                Spacer()
+                Text("XP")
+            }
+
+            Spacer()
+        }
+        .background {
+            VStack {
+                Color.blue
+                Color.cyan
+            }
+            .ignoresSafeArea()
         }
     }
 }
