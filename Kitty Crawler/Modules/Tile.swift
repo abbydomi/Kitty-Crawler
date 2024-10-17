@@ -9,6 +9,13 @@ struct Tile: Hashable {
     var power: Int
     var position: Position
     var type: TileType
+
+    var image: ImageResource {
+        if power == 0 {
+            return ImageResource(name: "\(type)", bundle: .main)
+        }
+        return ImageResource(name: "\(type)_\(power)", bundle: .main)
+    }
 }
 
 struct Position: Hashable {

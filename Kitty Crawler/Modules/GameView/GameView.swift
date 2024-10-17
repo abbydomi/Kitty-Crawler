@@ -36,13 +36,18 @@ struct GameView: View {
                     ForEach(viewModel.tiles, id: \.self) { tile in
                         ZStack {
                             Rectangle()
-                                .aspectRatio(1, contentMode: .fit)
                                 .foregroundStyle(Color.orange)
+                            Image(tile.image)
+                                .resizable()
+                                .scaledToFit()
+                                .accessibilityLabel("\(tile.type)")
                             VStack {
                                 Text("(\(tile.position.x),\(tile.position.y))")
                                 Text("\(tile.type)")
+                                Text("\(tile.power)")
                             }
                         }
+                        .aspectRatio(1, contentMode: .fit)
                     }
                 }
                 .padding(Constants.spacing)

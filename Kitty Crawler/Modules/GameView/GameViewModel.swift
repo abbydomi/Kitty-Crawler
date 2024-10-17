@@ -26,7 +26,6 @@ private extension GameViewModel {
                     position: Position(x: coordinateX, y: coordinateY),
                     type: .empty
                 )
-                newTile.power = coordinateX * coordinateY
                 // Spawn tile
                 if coordinateX == 3 && coordinateY == 5 {
                     newTile.type = .player
