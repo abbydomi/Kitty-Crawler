@@ -12,6 +12,7 @@ struct KittyCrawlerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(\.font, .nunito(size: 16))
         }
     }
 }
