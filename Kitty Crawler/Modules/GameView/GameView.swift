@@ -35,8 +35,9 @@ struct GameView: View {
                 LazyVGrid(columns: columns, spacing: Constants.spacing) {
                     ForEach(viewModel.tiles, id: \.self) { tile in
                         ZStack {
-                            Rectangle()
-                                .foregroundStyle(Color.orange)
+                            Circle()
+                                .foregroundStyle(Color.cyan)
+                                .padding()
                             Image(tile.image)
                                 .resizable()
                                 .scaledToFit()
