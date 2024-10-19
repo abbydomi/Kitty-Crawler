@@ -43,13 +43,14 @@ private extension GameViewModel {
                     continue
                 }
                 // Spawn enemies
-                if Utils.chance(50) && amountsSpawned[.enemy, default: 0] < maxTilePerLevel(type: .enemy) {
+                if Utils.chance(50),
+                   amountsSpawned[.enemy, default: 0] < GameRules.maxTilePerLevel(type: .enemy, level: level) {
                     newTile.type = .enemy
+                    newTile.power = getRandomPower(type: .enemy)
                     amountsSpawned[.enemy, default: 0] += 1
                     tiles.append(newTile)
                     continue
                 }
-
                 tiles.append(newTile)
             }
         }
@@ -60,18 +61,9 @@ private extension GameViewModel {
         }
     }
 
-    func maxTilePerLevel(type: TileType) -> Int {
-        switch type {
-        case .enemy:
-            let maxAmounts = [
-                12, 12, 12, 12,         // 1 - 4
-                14, 14, 14, 14, 14,     // 5- 9
-                16, 16, 16, 16, 16, 16, // 10 - 15
-                17, 17, 17, 17, 17,     // 16 - 20
-            ]
-            return level < maxAmounts.count ? maxAmounts[level] : maxAmounts.last ?? 17
-        default:
-            return 1
-        }
+    func getRandomPower(type: TileType) -> Int {
+        let minPower = GameRules.minPowerPerLevel(type: type, level: level)
+        let maxPower = GameRules.minPowerPerLevel(type: type, level: level)
+        return Int.random(in: minPower...maxPower)
     }
 }
