@@ -35,7 +35,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "LVL: %02d"
+            "value" : "NIVEL: %02d"
           }
         }
       }
