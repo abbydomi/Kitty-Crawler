@@ -14,7 +14,7 @@ struct GameView: View {
     }
     // MARK: - Properties
     @ObservedObject var viewModel = GameViewModel()
-    let columns = Array(
+    private let columns = Array(
         repeating: GridItem(.flexible(), spacing: Constants.spacing),
         count: 5
     )
@@ -25,8 +25,10 @@ struct GameView: View {
             Spacer()
             HStack {
                 Spacer()
-                Text("score")
+                Text(String(format: NSLocalizedString("ScoreTag", bundle: .main, comment: ""), viewModel.score))
+                    .modifier(TextUIModifiers())
             }
+            .padding(.horizontal)
             // MARK: Board
             ZStack {
                 Rectangle()
@@ -38,12 +40,13 @@ struct GameView: View {
                             Circle()
                                 .foregroundStyle(Color.cyan)
                                 .padding()
-                            Image(tile.image)
-                                .resizable()
-                                .scaledToFit()
-                                .accessibilityLabel("\(tile.type)")
+                            if tile.type != .empty {
+                                Image(tile.image)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .accessibilityLabel("\(tile.type)")
+                            }
                             VStack {
-                                Text("(\(tile.position.x),\(tile.position.y))")
                                 Text("\(tile.type)")
                                 Text("\(tile.power)")
                             }
@@ -54,21 +57,25 @@ struct GameView: View {
                 .padding(Constants.spacing)
             }
             // MARK: Bottom UI
-            HStack {
-                Text("Health")
-                Spacer()
-                Text("Level")
+            VStack {
+                HStack {
+                    HealthUIView(viewModel: viewModel)
+                    Spacer()
+                    Text(String(format: NSLocalizedString("LevelTag", bundle: .main, comment: ""), viewModel.level))
+                        .modifier(TextUIModifiers())
+                }
+                HStack {
+                    Text("Inventory")
+                    Spacer()
+                    Text("Backpack")
+                }
+                HStack {
+                    Text("Money")
+                    Spacer()
+                    Text("XP")
+                }
             }
-            HStack {
-                Text("Inventory")
-                Spacer()
-                Text("Backpack")
-            }
-            HStack {
-                Text("Money")
-                Spacer()
-                Text("XP")
-            }
+            .padding(.horizontal)
 
             Spacer()
         }

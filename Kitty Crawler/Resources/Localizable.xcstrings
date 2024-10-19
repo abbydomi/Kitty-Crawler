@@ -1,0 +1,68 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    ":" : {
+
+    },
+    "/" : {
+
+    },
+    "%lld" : {
+
+    },
+    "Backpack" : {
+
+    },
+    "Health" : {
+
+    },
+    "Health-icon" : {
+
+    },
+    "Inventory" : {
+
+    },
+    "LevelTag" : {
+      "comment" : "The tag before the level in the game view. ie: LVL: 20",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LVL: %02d"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LVL: %02d"
+          }
+        }
+      }
+    },
+    "Money" : {
+
+    },
+    "ScoreTag" : {
+      "comment" : "The tag for the score in the game view. ie: SCORE: 293847",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SCORE: %06d"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PUNTUACIÓN: %06d"
+          }
+        }
+      }
+    },
+    "XP" : {
+
+    }
+  },
+  "version" : "1.0"
+}

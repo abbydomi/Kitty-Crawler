@@ -11,6 +11,9 @@ import Foundation
 class GameViewModel: ObservableObject {
     @Published var tiles: [Tile] = []
     @Published var level = 1
+    @Published var score = 0
+    @Published var health = 2
+    @Published var maxHealth = 3
     private var amountsSpawned: [TileType: Int] = [
         .enemy: 0
     ]

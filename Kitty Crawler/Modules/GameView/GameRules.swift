@@ -31,7 +31,7 @@ class GameRules {
                 4, 4, 4, 4,       // 7 - 10
                 5,                // 11
                 6, 6, 6, 6, 6, 6, // 12 - 17
-                7, 7, 7           // 18 - 20
+                7, 7, 7,          // 18 - 20
             ]
             return level < maxPower.count ? maxPower[level] : maxPower.last ?? 7
         default:
@@ -47,9 +47,9 @@ class GameRules {
                 2, 2, 2, 2, 2, 2, 2, // 7 - 13
                 3, 3, 3,             // 14 - 16
                 4, 4,                // 17 - 18
-                5, 5                 // 19 -20
+                5, 5,                // 19 -20
             ]
-            return level < minPower.count ?  minPower[level] : minPower.last ?? 5
+            return level < minPower.count ? minPower[level] : minPower.last ?? 5
         default:
             return 1
         }
