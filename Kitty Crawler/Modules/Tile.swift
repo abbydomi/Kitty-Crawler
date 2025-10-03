@@ -28,4 +28,5 @@ enum TileType {
     case exit
     case enemy
     case player
+    case sword
 }
