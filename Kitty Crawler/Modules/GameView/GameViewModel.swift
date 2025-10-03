@@ -54,6 +54,28 @@ private extension GameViewModel {
                     tiles.append(newTile)
                     continue
                 }
+                // Spawn Swords
+                if Utils.chance(10),
+                   amountsSpawned[.sword, default: 0] < GameRules.maxTilePerLevel(type: .sword, level: level) {
+                        newTile.type = .sword
+                        newTile.power = getRandomPower(type: .sword)
+                        amountsSpawned[.sword, default: 0] += 1
+                        tiles.append(newTile)
+                    continue
+                }
+                // Spawn Shields
+                if Utils.chance(10) {
+
+                }
+                // Spawn Potions
+                if Utils.chance(10) {
+
+                }
+                // Spawn Coins
+                if Utils.chance(10) {
+
+                }
+                // Random tile
                 tiles.append(newTile)
             }
         }

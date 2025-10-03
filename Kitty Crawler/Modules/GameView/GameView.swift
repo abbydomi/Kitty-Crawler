@@ -13,7 +13,7 @@ struct GameView: View {
         static let spacing: CGFloat = 10
     }
     // MARK: - Properties
-    @ObservedObject var viewModel = GameViewModel()
+    @StateObject private var viewModel = GameViewModel()
     private let columns = Array(
         repeating: GridItem(.flexible(), spacing: Constants.spacing),
         count: 5
@@ -31,27 +31,10 @@ struct GameView: View {
             .padding(.horizontal)
             // MARK: Board
             ZStack {
-                Rectangle()
-                    .foregroundStyle(Color.blue)
-                    .aspectRatio(1, contentMode: .fit)
+                boardBackground()
                 LazyVGrid(columns: columns, spacing: Constants.spacing) {
                     ForEach(viewModel.tiles, id: \.self) { tile in
-                        ZStack {
-                            Circle()
-                                .foregroundStyle(Color.cyan)
-                                .padding()
-                            if tile.type != .empty {
-                                Image(tile.image)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .accessibilityLabel("\(tile.type)")
-                            }
-                            VStack {
-                                Text("\(tile.type)")
-                                Text("\(tile.power)")
-                            }
-                        }
-                        .aspectRatio(1, contentMode: .fit)
+                        TileView(tile: tile)
                     }
                 }
                 .padding(Constants.spacing)
@@ -86,6 +69,14 @@ struct GameView: View {
             }
             .ignoresSafeArea()
         }
+    }
+}
+// MARK: - Subviews
+private extension GameView {
+    func boardBackground() -> some View {
+        Rectangle()
+            .foregroundStyle(Color.blue)
+            .aspectRatio(1, contentMode: .fit)
     }
 }
 
