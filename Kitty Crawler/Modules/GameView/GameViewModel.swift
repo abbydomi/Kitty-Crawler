@@ -54,13 +54,13 @@ private extension GameViewModel {
                     tiles.append(newTile)
                     continue
                 }
-                // Spawn Swords
+                // Spawn Claws
                 if Utils.chance(10),
-                   amountsSpawned[.sword, default: 0] < GameRules.maxTilePerLevel(type: .sword, level: level) {
-                        newTile.type = .sword
-                        newTile.power = getRandomPower(type: .sword)
-                        amountsSpawned[.sword, default: 0] += 1
-                        tiles.append(newTile)
+                   amountsSpawned[.claw, default: 0] < GameRules.maxTilePerLevel(type: .claw, level: level) {
+                    newTile.type = .claw
+                    newTile.power = getRandomPower(type: .claw)
+                    amountsSpawned[.claw, default: 0] += 1
+                    tiles.append(newTile)
                     continue
                 }
                 // Spawn Shields
@@ -71,9 +71,14 @@ private extension GameViewModel {
                 if Utils.chance(10) {
 
                 }
-                // Spawn Coins
-                if Utils.chance(10) {
-
+                // Spawn Treats
+                if Utils.chance(10),
+                   amountsSpawned[.treat, default: 0] < GameRules.maxTilePerLevel(type: .treat, level: level) {
+                    newTile.type = .treat
+                    newTile.power = getRandomPower(type: .treat)
+                    amountsSpawned[.treat, default: 0] += 1
+                    tiles.append(newTile)
+                    continue
                 }
                 // Random tile
                 tiles.append(newTile)
