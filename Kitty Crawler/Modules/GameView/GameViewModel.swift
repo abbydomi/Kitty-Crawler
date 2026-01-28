@@ -177,7 +177,7 @@ private extension GameViewModel {
         let type = tile.type
 
         switch type {
-        case .empty:
+        case .empty, .player:
             return
         case .exit:
             // TODO: Next level logic
@@ -188,8 +188,6 @@ private extension GameViewModel {
             // TODO: Remove Health
             // TODO: Destroy Enemy
             break
-        case .player:
-            return
         case .attack:
             attack = .init(power: tile.power, type: .attack)
         case .defense:
@@ -198,8 +196,10 @@ private extension GameViewModel {
             // TODO: Add money
             break
         case .heal:
-            // TODO: Heal
-            break
+            health += tile.power
+            if health > maxHealth {
+                health = maxHealth
+            }
         case .shop:
             // TODO: Navigate to shop
             break
