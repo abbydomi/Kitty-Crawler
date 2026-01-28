@@ -18,19 +18,8 @@ struct TileView: View {
             if tile.type != .empty {
                 tileIcon(tile: tile)
             }
-#if DEBUG
-            VStack {
-                if tile.type != .empty {
-                    Text("\(tile.type)")
-                    Text("\(tile.power)")
-                    Text("(\(tile.position.x), \(tile.position.y))")
-                        .background {
-                            Color.white
-                        }
-                }
-            }
-#endif
         }
+        .accessibilityAddTraits(.isButton)
         .aspectRatio(1, contentMode: .fit)
         .matchedGeometryEffect(
             id: tile.type == .player ? "player" : tile.id,
@@ -39,6 +28,18 @@ struct TileView: View {
         )
         .onTapGesture {
             action()
+        }
+        .overlay {
+            VStack {
+                Text("(\(tile.position.x), \(tile.position.y))")
+                    .background {
+                        Color.white
+                            .opacity(0.75)
+                    }
+
+                Text("\(tile.type)")
+            }
+            .offset(y: 24)
         }
     }
 }
