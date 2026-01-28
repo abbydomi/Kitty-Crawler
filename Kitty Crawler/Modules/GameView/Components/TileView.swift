@@ -9,6 +9,8 @@ import SwiftUI
 
 struct TileView: View {
     let tile: Tile
+    let namespace: Namespace.ID
+    let action: () -> Void
 
     var body: some View {
         ZStack {
@@ -16,16 +18,28 @@ struct TileView: View {
             if tile.type != .empty {
                 tileIcon(tile: tile)
             }
-            #if DEBUG
+#if DEBUG
             VStack {
                 if tile.type != .empty {
                     Text("\(tile.type)")
                     Text("\(tile.power)")
+                    Text("(\(tile.position.x), \(tile.position.y))")
+                        .background {
+                            Color.white
+                        }
                 }
             }
-            #endif
+#endif
         }
         .aspectRatio(1, contentMode: .fit)
+        .matchedGeometryEffect(
+            id: tile.type == .player ? "player" : tile.id,
+            in: namespace,
+            isSource: tile.type == .player
+        )
+        .onTapGesture {
+            action()
+        }
     }
 }
 

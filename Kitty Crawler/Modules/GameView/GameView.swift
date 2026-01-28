@@ -18,6 +18,7 @@ struct GameView: View {
         repeating: GridItem(.flexible(), spacing: Constants.spacing),
         count: 5
     )
+    @Namespace private var playerNamespace
     // MARK: - View
     var body: some View {
         VStack {
@@ -33,8 +34,10 @@ struct GameView: View {
             ZStack {
                 boardBackground()
                 LazyVGrid(columns: columns, spacing: Constants.spacing) {
-                    ForEach(viewModel.tiles, id: \.self) { tile in
-                        TileView(tile: tile)
+                    ForEach(viewModel.tiles) { tile in
+                        TileView(tile: tile, namespace: playerNamespace) {
+                            viewModel.handleTileTap(tile: tile)
+                        }
                     }
                 }
                 .padding(Constants.spacing)

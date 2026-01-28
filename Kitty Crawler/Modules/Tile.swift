@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct Tile: Hashable {
+struct Tile: Hashable, Identifiable {
+    let id: String
     var power: Int
     var position: Position
     var type: TileType
@@ -17,6 +18,13 @@ struct Tile: Hashable {
             return ImageResource(name: "\(type)", bundle: .main)
         }
         return ImageResource(name: "\(type)_\(power)", bundle: .main)
+    }
+
+    init(power: Int, position: Position, type: TileType) {
+        self.id = UUID().uuidString
+        self.power = power
+        self.position = position
+        self.type = type
     }
 }
 

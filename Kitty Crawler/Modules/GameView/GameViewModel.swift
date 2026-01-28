@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import SwiftUI
 
 class GameViewModel: ObservableObject {
     @Published var tiles: [Tile] = []
@@ -20,6 +21,13 @@ class GameViewModel: ObservableObject {
 
     init() {
         createBoard()
+    }
+
+    func handleTileTap(tile: Tile) {
+        if adjacentTiles().contains(tile) {
+            // emptyTile(at: tiles.firstIndex(where: { $0.id == tile.id }))
+            movePlayer(to: tile)
+        }
     }
 }
 
@@ -131,5 +139,47 @@ private extension GameViewModel {
         randomTile.type = newtype
 
         return randomTile
+    }
+
+    func adjacentTiles() -> [Tile?] {
+        guard let playerTile = tiles.first(where: { $0.type == .player }) else {
+            // There is no player?
+            return [nil, nil, nil, nil]
+        }
+
+        let x = playerTile.position.x
+        let y = playerTile.position.y
+
+        return [
+            tiles.first { $0.position.x == x && $0.position.y == y - 1 }, // UP
+            tiles.first { $0.position.x == x && $0.position.y == y + 1 }, // DOWN
+            tiles.first { $0.position.x == x - 1 && $0.position.y == y }, // LEFT
+            tiles.first { $0.position.x == x + 1 && $0.position.y == y }, // RIGHT
+        ]
+    }
+
+    func playerIndex() -> Int? {
+        tiles.firstIndex { $0.type == .player }
+    }
+
+    func movePlayer(to tile: Tile) {
+        if tile.type == .empty {
+            return
+        }
+
+        // TODO: Interactions
+
+        guard let index = playerIndex() else { return }
+        guard let tileIndex = tiles.firstIndex(where: { $0.id == tile.id }) else { return }
+
+        withAnimation(.easeOut) {
+            tiles[tileIndex] = .init(power: 0, position: tile.position, type: .player)
+        }
+        emptyTile(at: index)
+    }
+
+    func emptyTile(at index: Int?) {
+        guard let index else { return }
+        tiles[index].type = .empty
     }
 }
