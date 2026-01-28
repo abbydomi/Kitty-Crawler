@@ -15,8 +15,9 @@ class GameViewModel: ObservableObject {
     @Published var score = 0
     @Published var health = 3
     @Published var maxHealth = 3
-    @Published var attack = 0
-    @Published var defense = 0
+    @Published var attack: Item?
+    @Published var defense: Item?
+    @Published var backpack: [Item] = []
     private var amountsSpawned: [TileType: Int] = [:]
 
     init() {
@@ -190,9 +191,9 @@ private extension GameViewModel {
         case .player:
             return
         case .attack:
-            attack = tile.power
+            attack = .init(power: tile.power, type: .attack)
         case .defense:
-            defense = tile.power
+            defense = .init(power: tile.power, type: .defense)
         case .currency:
             // TODO: Add money
             break

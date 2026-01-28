@@ -53,7 +53,7 @@ struct GameView: View {
                 HStack {
                     inventory
                     Spacer()
-                    Text("Backpack")
+                    backpack
                 }
                 HStack {
                     Text("Money")
@@ -84,16 +84,33 @@ private extension GameView {
 
     var inventory: some View {
         HStack {
-            TileView(power: viewModel.attack, itemType: .attack, namespace: playerNamespace) {
+            ItemView(item: viewModel.attack) {
                 viewModel.handleItemTap()
             }
             .aspectRatio(contentMode: .fit)
             .frame(maxWidth: 64)
-            TileView(power: viewModel.defense, itemType: .defense, namespace: playerNamespace) {
+
+            ItemView(item: viewModel.defense) {
                 viewModel.handleItemTap()
             }
             .aspectRatio(contentMode: .fit)
             .frame(maxWidth: 64)
+        }
+    }
+
+    var backpack: some View {
+        HStack {
+            if !viewModel.backpack.isEmpty {
+                Divider()
+                    .frame(maxHeight: 64)
+            }
+            ForEach(viewModel.backpack) { item in
+                ItemView(item: item) {
+                    viewModel.handleItemTap()
+                }
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: 64)
+            }
         }
     }
 }
