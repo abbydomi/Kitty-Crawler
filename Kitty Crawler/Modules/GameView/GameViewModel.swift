@@ -54,33 +54,44 @@ private extension GameViewModel {
                     tiles.append(newTile)
                     continue
                 }
-                // Spawn Claws
-                if Utils.chance(10),
-                   amountsSpawned[.claw, default: 0] < GameRules.maxTilePerLevel(type: .claw, level: level) {
-                    newTile.type = .claw
-                    newTile.power = getRandomPower(type: .claw)
-                    amountsSpawned[.claw, default: 0] += 1
+                // Spawn Healing
+                if Utils.chance(60),
+                   amountsSpawned[.heal, default: 0] < GameRules.maxTilePerLevel(type: .heal, level: level) {
+                    newTile.type = .heal
+                    newTile.power = getRandomPower(type: .heal)
+                    amountsSpawned[.heal, default: 0] += 1
                     tiles.append(newTile)
                     continue
                 }
-                // Spawn Shields
-                if Utils.chance(10) {
-
+                // Spawn Defense
+                if Utils.chance(70),
+                   amountsSpawned[.defense, default: 0] < GameRules.maxTilePerLevel(type: .defense, level: level) {
+                    newTile.type = .defense
+                    newTile.power = getRandomPower(type: .defense)
+                    amountsSpawned[.defense, default: 0] += 1
+                    tiles.append(newTile)
+                    continue
                 }
-                // Spawn Potions
-                if Utils.chance(10) {
-
+                // Spawn Attack
+                if Utils.chance(80),
+                   amountsSpawned[.attack, default: 0] < GameRules.maxTilePerLevel(type: .attack, level: level) {
+                    newTile.type = .attack
+                    newTile.power = getRandomPower(type: .attack)
+                    amountsSpawned[.attack, default: 0] += 1
+                    tiles.append(newTile)
+                    continue
                 }
-                // Spawn Treats
-                if Utils.chance(10),
-                   amountsSpawned[.treat, default: 0] < GameRules.maxTilePerLevel(type: .treat, level: level) {
-                    newTile.type = .treat
-                    newTile.power = getRandomPower(type: .treat)
-                    amountsSpawned[.treat, default: 0] += 1
+                // Spawn Currency
+                if Utils.chance(90),
+                   amountsSpawned[.currency, default: 0] < GameRules.maxTilePerLevel(type: .currency, level: level) {
+                    newTile.type = .currency
+                    newTile.power = getRandomPower(type: .currency)
+                    amountsSpawned[.currency, default: 0] += 1
                     tiles.append(newTile)
                     continue
                 }
                 // Random tile
+                newTile = randomTile(for: newTile)
                 tiles.append(newTile)
             }
         }
@@ -95,5 +106,30 @@ private extension GameViewModel {
         let minPower = GameRules.minPowerPerLevel(type: type, level: level)
         let maxPower = GameRules.minPowerPerLevel(type: type, level: level)
         return Int.random(in: minPower...maxPower)
+    }
+
+    func randomTile(for tile: Tile) -> Tile {
+        var randomTile = tile
+        let possibleTypes: [TileType] = [
+            .attack,
+            .defense,
+            .currency,
+            .heal,
+            .store,
+            .temple,
+        ]
+        var newtype = possibleTypes.randomElement() ?? .attack
+        var newPower = 1
+        let amountOfTile = amountsSpawned[newtype, default: 0]
+        if amountOfTile > GameRules.maxTilePerLevel(type: newtype, level: level) {
+            // max coin lucky draw
+            newtype = .currency
+            newPower = 3
+        }
+
+        randomTile.power = newPower
+        randomTile.type = newtype
+
+        return randomTile
     }
 }

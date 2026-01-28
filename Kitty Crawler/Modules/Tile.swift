@@ -5,6 +5,8 @@
 //  Created by Abby Dominguez on 17/10/24.
 //
 
+import SwiftUI
+
 struct Tile: Hashable {
     var power: Int
     var position: Position
@@ -28,6 +30,10 @@ enum TileType {
     case exit
     case enemy
     case player
-    case claw  // Sword
-    case treat // Coin
+    case attack    // Sword
+    case defense   // Shield
+    case currency  // Coin
+    case heal
+    case store
+    case temple
 }

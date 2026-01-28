@@ -18,7 +18,7 @@ class GameRules {
                 17, 17, 17, 17, 17,     // 16 - 20
             ]
             return level < maxAmounts.count ? maxAmounts[level] : defaultValue
-        case .claw:
+        case .attack:
             let defaultValue = 4
             let maxAmounts = [
                 4,                         // 1
@@ -29,7 +29,7 @@ class GameRules {
                 3,                         // 20
             ]
             return level < maxAmounts.count ? maxAmounts[level] : defaultValue
-        case .treat:
+        case .currency:
             let defaultValue = 3
             let maxAmounts = [
                 2, 2,    // 1 - 2
@@ -45,6 +45,38 @@ class GameRules {
                 4,       // 18
                 2,       // 19
                 1,       // 20
+            ]
+            return level < maxAmounts.count ? maxAmounts[level] : defaultValue
+        case .defense:
+            let defaultValue = 4
+            let maxAmounts = [
+                4, 4, 4, 4, 4, 4, 4, 4, 4, // 1 - 9
+                5,                         // 10
+                3, 3,                      // 11 - 12
+                1,                         // 13
+                3, 3,                      // 14  15
+                2, 2,                      // 16 17
+                4,                         // 18
+                5,                         // 19
+                3,                         // 20
+            ]
+            return level < maxAmounts.count ? maxAmounts[level] : defaultValue
+        case .heal:
+            let defaultValue = 4
+            let maxAmounts = [
+                4, 4,    // 1 - 2
+                3, 2,    // 3 - 4
+                1,       // 5
+                2, 2,    // 6 - 7
+                1,       // 8
+                2,       // 9
+                3,       // 10
+                2, 2, 2, // 11 - 13
+                1,       // 14
+                4,       // 15
+                3, 3, 3, // 16 - 18
+                1,       // 19
+                2,       // 20
             ]
             return level < maxAmounts.count ? maxAmounts[level] : defaultValue
         default:
@@ -65,7 +97,7 @@ class GameRules {
                 7, 7, 7,          // 18 - 20
             ]
             return level < maxPower.count ? maxPower[level] : defaultValue
-        case .claw:
+        case .attack:
             let defaultValue = 5
             let maxPower = [
                 2, 2,                // 1 - 2
@@ -76,7 +108,7 @@ class GameRules {
                 5, 5, 5,             // 18 - 20
             ]
             return level < maxPower.count ? maxPower[level] : defaultValue
-        case .treat:
+        case .currency:
             let defaultValue = 3
             var maxPower: [Int] = []
             for _ in 0..<10 {
@@ -85,6 +117,29 @@ class GameRules {
             for _ in 0..<10 {
                 maxPower.append(3) // 11 - 20
             }
+            return level < maxPower.count ? maxPower[level] : defaultValue
+        case .defense:
+            let defaultValue = 5
+            let maxPower = [
+                2, 2,                // 1 - 2
+                3, 3, 3, 3, 3, 3, 3, // 3 - 9
+                4, 4, 4, 4,          // 10 - 13
+                3, 3, 3,             // 14 - 16
+                4,                   // 17
+                5, 5, 5,             // 18 - 20
+            ]
+            return level < maxPower.count ? maxPower[level] : defaultValue
+        case .heal:
+            let defaultValue = 4
+            let maxPower = [
+                2, 2, 2, 2, 2, 2, 2, 2, 2, // 1 - 9
+                3, 3, 3,                   // 10 - 12
+                2,                         // 13
+                4, 4,                      // 14 - 15
+                2, 2, 2,                   // 16 - 18
+                4,                         // 19
+                3,                         // 20
+            ]
             return level < maxPower.count ? maxPower[level] : defaultValue
         default:
             return 7
@@ -103,7 +158,7 @@ class GameRules {
                 5, 5,                // 19 - 20
             ]
             return level < minPower.count ? minPower[level] : defaultValue
-        case .claw:
+        case .attack:
             let defaultValue = 3
             let minPower = [
                 1, 1, 1, 1, 1, 1,    // 1 - 6
@@ -113,8 +168,30 @@ class GameRules {
                 3,                   // 20
             ]
             return level < minPower.count ? minPower[level] : defaultValue
-        case .treat:
+        case .currency:
             return 1
+        case .defense:
+            let defaultValue = 2
+            let minPower = [
+                1, 1, 1, 1, 1, 1,          // 1 - 6
+                2, 2, 2, 2, 2, 2, 2, 2, 2, // 7 - 13
+                3, 3, 3, 3, 3,             // 14 - 18
+                4,                         // 19
+                3,                          // 20
+            ]
+            return level < minPower.count ? minPower[level] : defaultValue
+        case .heal:
+            let defaultValue = 1
+            let minPower = [
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, // 1 - 11
+                2, 2, 2,                         // 12 - 14
+                3,                               // 15
+                2,                               // 16
+                1, 1,                            // 17 - 18
+                2,                               // 19
+                1,                               // 20
+            ]
+            return level < minPower.count ? minPower[level] : defaultValue
         default:
             return 1
         }
