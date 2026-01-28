@@ -42,6 +42,6 @@ enum TileType {
     case defense   // Shield
     case currency  // Coin
     case heal
-    case store
+    case shop
     case temple
 }
