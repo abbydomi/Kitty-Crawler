@@ -51,7 +51,7 @@ struct GameView: View {
                         .modifier(TextUIModifiers())
                 }
                 HStack {
-                    Text("Inventory")
+                    inventory
                     Spacer()
                     Text("Backpack")
                 }
@@ -80,6 +80,21 @@ private extension GameView {
         Rectangle()
             .foregroundStyle(Color.blue)
             .aspectRatio(1, contentMode: .fit)
+    }
+
+    var inventory: some View {
+        HStack {
+            TileView(power: viewModel.attack, itemType: .attack, namespace: playerNamespace) {
+                viewModel.handleItemTap()
+            }
+            .aspectRatio(contentMode: .fit)
+            .frame(maxWidth: 64)
+            TileView(power: viewModel.defense, itemType: .defense, namespace: playerNamespace) {
+                viewModel.handleItemTap()
+            }
+            .aspectRatio(contentMode: .fit)
+            .frame(maxWidth: 64)
+        }
     }
 }
 

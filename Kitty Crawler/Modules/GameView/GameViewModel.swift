@@ -16,13 +16,8 @@ class GameViewModel: ObservableObject {
     @Published var health = 3
     @Published var maxHealth = 3
     @Published var attack = 0
-    private var amountsSpawned: [TileType: Int] = [
-        .enemy: 0,
-        .attack: 0,
-        .currency: 0,
-        .defense: 0,
-        .heal: 0,
-    ]
+    @Published var defense = 0
+    private var amountsSpawned: [TileType: Int] = [:]
 
     init() {
         createBoard()
@@ -33,6 +28,10 @@ class GameViewModel: ObservableObject {
             // emptyTile(at: tiles.firstIndex(where: { $0.id == tile.id }))
             movePlayer(to: tile)
         }
+    }
+
+    func handleItemTap() {
+        // TODO: Handle using items
     }
 }
 
@@ -158,7 +157,9 @@ private extension GameViewModel {
         guard let index = playerIndex() else { return }
         guard let tileIndex = tiles.firstIndex(where: { $0.id == tile.id }) else { return }
 
-        interact(with: tile)
+        withAnimation {
+            interact(with: tile)
+        }
 
         withAnimation(.easeOut) {
             tiles[tileIndex] = .init(power: 0, position: tile.position, type: .player)
@@ -189,11 +190,9 @@ private extension GameViewModel {
         case .player:
             return
         case .attack:
-            // TODO: Replace Sword
-            break
+            attack = tile.power
         case .defense:
-            // TODO: Replace Shield
-            break
+            defense = tile.power
         case .currency:
             // TODO: Add money
             break
