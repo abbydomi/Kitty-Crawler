@@ -13,10 +13,15 @@ class GameViewModel: ObservableObject {
     @Published var tiles: [Tile] = []
     @Published var level = 1
     @Published var score = 0
-    @Published var health = 2
+    @Published var health = 3
     @Published var maxHealth = 3
+    @Published var attack = 0
     private var amountsSpawned: [TileType: Int] = [
-        .enemy: 0
+        .enemy: 0,
+        .attack: 0,
+        .currency: 0,
+        .defense: 0,
+        .heal: 0,
     ]
 
     init() {
@@ -107,7 +112,7 @@ private extension GameViewModel {
             .defense,
             .currency,
             .heal,
-            .store,
+            .shop,
             .temple,
         ]
         var newtype = possibleTypes.randomElement() ?? .attack
@@ -150,11 +155,10 @@ private extension GameViewModel {
         if tile.type == .empty {
             return
         }
-
-        // TODO: Interactions
-
         guard let index = playerIndex() else { return }
         guard let tileIndex = tiles.firstIndex(where: { $0.id == tile.id }) else { return }
+
+        interact(with: tile)
 
         withAnimation(.easeOut) {
             tiles[tileIndex] = .init(power: 0, position: tile.position, type: .player)
@@ -165,5 +169,43 @@ private extension GameViewModel {
     func emptyTile(at index: Int?) {
         guard let index else { return }
         tiles[index].type = .empty
+    }
+
+    func interact(with tile: Tile) {
+        let type = tile.type
+
+        switch type {
+        case .empty:
+            return
+        case .exit:
+            // TODO: Next level logic
+            break
+        case .enemy:
+            // TODO: Break Shield
+            // TODO: Break Sword
+            // TODO: Remove Health
+            // TODO: Destroy Enemy
+            break
+        case .player:
+            return
+        case .attack:
+            // TODO: Replace Sword
+            break
+        case .defense:
+            // TODO: Replace Shield
+            break
+        case .currency:
+            // TODO: Add money
+            break
+        case .heal:
+            // TODO: Heal
+            break
+        case .shop:
+            // TODO: Navigate to shop
+            break
+        case .temple:
+            // TODO: Navigate to Temple
+            break
+        }
     }
 }
