@@ -34,80 +34,64 @@ class GameViewModel: ObservableObject {
 private extension GameViewModel {
     func createBoard() {
         let coordinateXExit = Int.random(in: 1...5)
-        for coordinateX in 1...5 {
-            for coordinateY in 1...5 {
-                var newTile = Tile(
+
+        let spawnRules = GameRules.spawnRules()
+
+        for x in 1...5 {
+            for y in 1...5 {
+                var tile = Tile(
                     power: 0,
-                    position: Position(x: coordinateX, y: coordinateY),
+                    position: Position(x: x, y: y),
                     type: .empty
                 )
-                // Player-Entrance tile
-                if coordinateX == 3 && coordinateY == 5 {
-                    newTile.type = .player
-                    tiles.append(newTile)
+
+                // Player entrance
+                if x == 3 && y == 5 {
+                    tile.type = .player
+                    tiles.append(tile)
                     continue
                 }
-                // Exit tile
-                if coordinateX == coordinateXExit && coordinateY == 1 {
-                    newTile.type = .exit
-                    tiles.append(newTile)
+
+                // Exit
+                if x == coordinateXExit && y == 1 {
+                    tile.type = .exit
+                    tiles.append(tile)
                     continue
                 }
-                // Spawn enemies
-                if Utils.chance(50),
-                   amountsSpawned[.enemy, default: 0] < GameRules.maxTilePerLevel(type: .enemy, level: level) {
-                    newTile.type = .enemy
-                    newTile.power = getRandomPower(type: .enemy)
-                    amountsSpawned[.enemy, default: 0] += 1
-                    tiles.append(newTile)
+
+                // Spawn rules
+                if let spawnedTile = spawnTile(using: spawnRules, baseTile: tile) {
+                    tiles.append(spawnedTile)
                     continue
                 }
-                // Spawn Healing
-                if Utils.chance(60),
-                   amountsSpawned[.heal, default: 0] < GameRules.maxTilePerLevel(type: .heal, level: level) {
-                    newTile.type = .heal
-                    newTile.power = getRandomPower(type: .heal)
-                    amountsSpawned[.heal, default: 0] += 1
-                    tiles.append(newTile)
-                    continue
-                }
-                // Spawn Defense
-                if Utils.chance(70),
-                   amountsSpawned[.defense, default: 0] < GameRules.maxTilePerLevel(type: .defense, level: level) {
-                    newTile.type = .defense
-                    newTile.power = getRandomPower(type: .defense)
-                    amountsSpawned[.defense, default: 0] += 1
-                    tiles.append(newTile)
-                    continue
-                }
-                // Spawn Attack
-                if Utils.chance(80),
-                   amountsSpawned[.attack, default: 0] < GameRules.maxTilePerLevel(type: .attack, level: level) {
-                    newTile.type = .attack
-                    newTile.power = getRandomPower(type: .attack)
-                    amountsSpawned[.attack, default: 0] += 1
-                    tiles.append(newTile)
-                    continue
-                }
-                // Spawn Currency
-                if Utils.chance(90),
-                   amountsSpawned[.currency, default: 0] < GameRules.maxTilePerLevel(type: .currency, level: level) {
-                    newTile.type = .currency
-                    newTile.power = getRandomPower(type: .currency)
-                    amountsSpawned[.currency, default: 0] += 1
-                    tiles.append(newTile)
-                    continue
-                }
-                // Random tile
-                newTile = randomTile(for: newTile)
-                tiles.append(newTile)
+
+                // Fallback random tile
+                tiles.append(randomTile(for: tile))
             }
         }
-        // Sort tiles
-        tiles = tiles.sorted {
+
+        tiles.sort {
             $0.position.y < $1.position.y ||
             ($0.position.y == $1.position.y && $0.position.x < $1.position.x)
         }
+    }
+
+    func spawnTile(
+        using rules: [SpawnRule],
+        baseTile: Tile
+    ) -> Tile? {
+        for rule in rules {
+            if Utils.chance(rule.chance),
+               amountsSpawned[rule.type, default: 0] <
+               GameRules.maxTilePerLevel(type: rule.type, level: level) {
+                var tile = baseTile
+                tile.type = rule.type
+                tile.power = getRandomPower(type: rule.type)
+                amountsSpawned[rule.type, default: 0] += 1
+                return tile
+            }
+        }
+        return nil
     }
 
     func getRandomPower(type: TileType) -> Int {

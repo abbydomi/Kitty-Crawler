@@ -7,6 +7,16 @@
 
 class GameRules {
     // MARK: - Tile amounts
+    static func spawnRules() -> [SpawnRule] {
+        [
+            SpawnRule(type: .enemy, chance: 50),
+            SpawnRule(type: .heal, chance: 60),
+            SpawnRule(type: .defense, chance: 70),
+            SpawnRule(type: .attack, chance: 80),
+            SpawnRule(type: .currency, chance: 90),
+        ]
+    }
+
     static func maxTilePerLevel(type: TileType, level: Int) -> Int {
         switch type {
         case .enemy:
@@ -196,4 +206,9 @@ class GameRules {
             return 1
         }
     }
+}
+
+struct SpawnRule {
+    let type: TileType
+    let chance: Int
 }
